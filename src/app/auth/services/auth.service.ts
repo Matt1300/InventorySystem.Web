@@ -1,9 +1,9 @@
-import { inject, Injectable } from '@angular/core';
-import { User } from '../Interfaces/user';
+import { inject, Injectable, signal } from '@angular/core';
+import { NewUser, User } from '../Interfaces/user';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map, Observable } from 'rxjs';
-import { LoginResponse } from '../Interfaces/login-response';
+import { ApiResponse, LoginResponse } from '../Interfaces/response';
 
 const baseUrl = environment.apiUrl;
 
@@ -15,12 +15,11 @@ export class AuthService {
   private http = inject(HttpClient);
   private tokenKey = 'token';
 
-
   constructor() { }
 
 
-  login(credentialas: User): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${baseUrl}/Auth/login`, credentialas).pipe(
+  login(credentialas: User): Observable<ApiResponse<LoginResponse>> {
+    return this.http.post<ApiResponse<LoginResponse>>(`${baseUrl}/Auth/login`, credentialas).pipe(
       map((response) => {
         if (response.success) {
           localStorage.setItem(this.tokenKey, response.data.token);
@@ -30,8 +29,8 @@ export class AuthService {
     )
   }
 
-  register(data: User) {
-    return this.http.post(`${baseUrl}/Auth/register`, data);
+  register(data: NewUser): Observable<ApiResponse<null>> {
+    return this.http.post<ApiResponse<null>>(`${baseUrl}/Auth/register`, data)
   }
 
 

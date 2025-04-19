@@ -1,11 +1,10 @@
-
-export interface LoginResponse {
+export interface ApiResponse<T> {
   success: boolean;
-  data: Data;
+  data: T;
   message: string;
 }
 
-export interface Data {
+export interface LoginResponse {
   token: string;
   refreshToken: string;
 }

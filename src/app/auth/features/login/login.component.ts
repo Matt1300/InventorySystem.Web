@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../Interfaces/user';
@@ -12,6 +12,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     MatInputModule,
     MatSnackBarModule,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
 })
@@ -41,16 +42,13 @@ export class LoginComponent {
       next: (response) => {
         if (response.success) {
           this.matSnackBar.open(response.message, 'Cerrar', {
-            duration: 4000,
+            duration: 2000,
             horizontalPosition: 'right',
             verticalPosition: 'top'
           })
           this.router.navigateByUrl('/dashboard');
         } else {
-          this.matSnackBar.open(response.message, "", {
-            duration: 4000,
-            horizontalPosition: 'center',
-          })
+          this.errorMessage = response.message;
         }
       },
       error: (error) => {
