@@ -1,13 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../Interfaces/user';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSnackBarModule,
   ],
   templateUrl: './login.component.html',
 })
@@ -17,6 +21,7 @@ export class LoginComponent {
   authService = inject(AuthService);
   fb = inject(FormBuilder);
   router = inject(Router)
+  matSnackBar = inject(MatSnackBar);
 
   loginForm = this.fb.group({
     username: ['', Validators.required],
@@ -31,12 +36,21 @@ export class LoginComponent {
       username: this.loginForm.value.username!,
       password: this.loginForm.value.password!
     }
+
     this.authService.login(data).subscribe({
       next: (response) => {
         if (response.success) {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          })
           this.router.navigateByUrl('/dashboard');
         } else {
-          this.errorMessage = response.message;
+          this.matSnackBar.open(response.message, "", {
+            duration: 4000,
+            horizontalPosition: 'center',
+          })
         }
       },
       error: (error) => {

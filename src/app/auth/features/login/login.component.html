@@ -56,11 +56,10 @@
           {{ errorMessage }}
         </div>
         }
-
         <button
           [disabled]="loginForm.invalid"
           type="submit"
-          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold shadow-xs text-white bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed hover:cursor-pointer"
         >
           Ingresar
         </button>
