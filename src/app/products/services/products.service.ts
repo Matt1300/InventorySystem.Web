@@ -31,4 +31,8 @@ export class ProductsService {
     return this.http.delete<ApiResponse<boolean>>(`${baseUrl}/Product/${id}`);
   }
 
+  addProduct(product: Product): Observable<ApiResponse<Product>> {
+    return this.http.post<ApiResponse<Product>>(`${baseUrl}/Product`, product);
+  }
+
 }

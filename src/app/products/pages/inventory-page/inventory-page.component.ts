@@ -14,6 +14,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditProductModalComponent } from '../../components/edit-product-modal/edit-product-modal.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmDeleteModalComponent } from '../../components/confirm-delete-modal/confirm-delete-modal.component';
+import { AddProductModalComponent } from '../../components/add-product-modal/add-product-modal.component';
 @Component({
   selector: 'app-inventory-page',
   imports: [
@@ -73,6 +74,30 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Error al cargar los productos:', error);
+      }
+    });
+  }
+
+  createProduct(newProduct: any) {
+    this.productService.addProduct(newProduct).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          })
+          this.loadProducts();
+        } else {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          })
+        }
+      },
+      error: (error) => {
+        console.error('Error al crear el producto:', error);
       }
     });
   }
@@ -164,6 +189,22 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.deleteProduct(product.id);
+      }
+    });
+  }
+
+  openNewProductModal() {
+    const dialogRef = this.dialog.open(AddProductModalComponent, {
+      width: '700px',
+      data: {
+        name: '',
+        description: '',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((newProduct: any) => {
+      if (newProduct) {
+        this.createProduct(newProduct);
       }
     });
   }
