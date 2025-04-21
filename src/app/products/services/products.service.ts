@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { ApiResponse } from 'src/app/auth/Interfaces/response';
-import { Product, ProductDetails } from '../interfaces/Product';
+import { Product, ProductDetails, UpdateProduct, UpdateResponse } from '../interfaces/Product';
 import { Observable } from 'rxjs';
 
 const baseUrl = environment.apiUrl;
@@ -21,6 +21,10 @@ export class ProductsService {
 
   getProductById(id: number): Observable<ApiResponse<ProductDetails>> {
     return this.http.get<ApiResponse<ProductDetails>>(`${baseUrl}/Product/${id}`);
+  }
+
+  updateProduct(id: number, product: UpdateResponse): Observable<ApiResponse<UpdateProduct>> {
+    return this.http.patch<ApiResponse<UpdateResponse>>(`${baseUrl}/Product/${id}`, product);
   }
 
 }

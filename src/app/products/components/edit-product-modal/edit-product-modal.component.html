@@ -1,0 +1,30 @@
+<h3 class="!text-lg !font-semibold !mb-4 p-5 !text-center">Editar Producto</h3>
+
+<mat-form-field appearance="fill" class="p-4">
+  <mat-label>Nombre</mat-label>
+  <input matInput [(ngModel)]="data.name" required />
+</mat-form-field>
+
+<mat-form-field appearance="fill" class="!w-full p-4">
+  <mat-label>Descripción</mat-label>
+  <input matInput [(ngModel)]="data.description" required />
+</mat-form-field>
+
+<mat-form-field appearance="fill" class="!w-full !mb-4 p-4">
+  <mat-label>Código</mat-label>
+  <input matInput [(ngModel)]="data.code" required />
+</mat-form-field>
+
+<div class="!flex !justify-end !gap-4 !mt-4">
+  <button mat-button (click)="close()" color="warn" class="!w-full !sm:w-auto">
+    Cancelar
+  </button>
+  <button
+    mat-button
+    (click)="save()"
+    color="primary"
+    class="!w-full !sm:w-auto"
+  >
+    Guardar
+  </button>
+</div>

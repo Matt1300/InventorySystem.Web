@@ -26,3 +26,17 @@ export interface Price {
   entryDate: Date;
   price: number;
 }
+
+
+export interface UpdateProduct {
+  name: string;
+  description: string;
+  code: string;
+}
+
+export interface UpdateResponse {
+  id: number;
+  name: string;
+  description: string;
+  code: string;
+}

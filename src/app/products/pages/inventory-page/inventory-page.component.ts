@@ -10,7 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
-
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { EditProductModalComponent } from '../../components/edit-product-modal/edit-product-modal.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-inventory-page',
   imports: [
@@ -22,18 +24,25 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   templateUrl: './inventory-page.component.html',
 })
 export class InventoryPageComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  productService = inject(ProductsService);
-  router = inject(Router);
+  matSnackBar = inject(MatSnackBar);
   searchTerm: string = '';
-
   displayedColumns: string[] = ['code', 'name', 'description', 'stock', 'price', 'actions'];
   dataSource = new MatTableDataSource<any>();
+
+
+  constructor(
+    private productService: ProductsService,
+    private router: Router,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -62,6 +71,43 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Error al cargar los productos:', error);
+      }
+    });
+  }
+
+  openEditModal(product: any) {
+    const dialogRef = this.dialog.open(EditProductModalComponent, {
+      width: '700px',
+      data: { ...product },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.saveProduct(result);
+      }
+    });
+  }
+
+  saveProduct(updatedProduct: any) {
+    this.productService.updateProduct(updatedProduct.id, updatedProduct).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          })
+          this.loadProducts();
+        } else {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          })
+        }
+      },
+      error: (error) => {
+        console.error('Error al actualizar el producto:', error);
       }
     });
   }

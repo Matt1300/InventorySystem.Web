@@ -53,7 +53,12 @@
           >
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button color="accent" aria-label="Editar">
+          <button
+            mat-icon-button
+            color="accent"
+            aria-label="Editar"
+            (click)="openEditModal(element)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button color="warn" aria-label="Eliminar">

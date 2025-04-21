@@ -29,7 +29,6 @@ export class ProductPageComponent implements OnInit {
       next: (response) => {
         if (response.success) {
           this.product = response.data;
-          console.log('Producto cargado:', this.product);
         } else {
           console.error('Error al cargar el producto:', response.message);
         }
@@ -46,7 +45,6 @@ export class ProductPageComponent implements OnInit {
 
   loadProduct(productId: string | null) {
     // Aquí iría la lógica para cargar los datos del producto desde un servicio
-    console.log('Loading product with ID:', productId);
   }
 
   onEdit() {
@@ -55,7 +53,6 @@ export class ProductPageComponent implements OnInit {
   }
 
   onReturn() {
-    console.log('Return to product list');
     this.route.navigate(['/dashboard/inventory']);
     // Implementar navegación de retorno a la lista de productos
   }

@@ -12,6 +12,7 @@ import { NewUser } from '../../Interfaces/user';
     ReactiveFormsModule,
     MatInputModule,
     MatSnackBarModule,
+    RouterLink
   ],
   templateUrl: './register.component.html',
 })
