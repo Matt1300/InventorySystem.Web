@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -16,7 +16,18 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   ],
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
+
+export class LoginComponent implements OnInit {
+  ngOnInit(): void {
+    this.isLoggedIn();
+  }
+
+  isLoggedIn() {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigateByUrl('/dashboard');
+    }
+  }
+
   errorMessage: string = '';
 
   authService = inject(AuthService);

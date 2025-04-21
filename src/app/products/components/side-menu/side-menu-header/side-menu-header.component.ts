@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { environment } from '@environments/environment';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'side-menu-header',
@@ -8,6 +9,7 @@ import { environment } from '@environments/environment';
 })
 export class SideMenuHeaderComponent {
   envs = environment;
-
-  username = 'Mateo Granizo';
+  authService = inject(AuthService);
+  isLoggedIn = this.authService.isLoggedIn();
+  username = this.authService.fullName() || 'Usuario';
 }

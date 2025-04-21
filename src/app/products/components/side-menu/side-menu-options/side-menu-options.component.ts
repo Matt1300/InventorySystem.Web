@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 interface MenuOption {
   icon: string;
@@ -17,21 +19,26 @@ interface MenuOption {
   templateUrl: './side-menu-options.component.html',
 })
 export class SideMenuOptionsComponent {
+
+  authService = inject(AuthService);
+  matSnackBar = inject(MatSnackBar);
+  router = inject(Router);
+
   menuOptions: MenuOption[] = [
     {
-      icon: 'home',
+      icon: 'fa-solid fa-house',
       label: 'Inicio',
-      route: '/dashboard',
+      route: '/dashboard/home',
       sublabel: 'Panel de control'
     },
     {
-      icon: 'inventory_2',
+      icon: 'fa-solid fa-truck-ramp-box',
       label: 'Inventario',
       route: '/dashboard/inventory',
       sublabel: 'Artículos en inventario'
     },
     {
-      icon: 'shopping_cart',
+      icon: 'fa-solid fa-cart-shopping',
       label: 'Compras',
       route: '/dashboard/purchases',
       sublabel: 'Registro de compras'
@@ -43,4 +50,17 @@ export class SideMenuOptionsComponent {
       sublabel: 'Registro de ventas'
     }
   ]
+
+  logout() {
+    this.authService.logout();
+    this.matSnackBar.open('Sesión cerrada', 'Cerrar', {
+      duration: 3000,
+      panelClass: ['mat-snackbar'],
+      horizontalPosition: 'right',
+      verticalPosition: 'top'
+    })
+
+    this.router.navigate(['/auth/login']);
+  }
+
 }
