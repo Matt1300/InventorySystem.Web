@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditProductModalComponent } from '../../components/edit-product-modal/edit-product-modal.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmDeleteModalComponent } from '../../components/confirm-delete-modal/confirm-delete-modal.component';
 @Component({
   selector: 'app-inventory-page',
   imports: [
@@ -34,7 +35,7 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   matSnackBar = inject(MatSnackBar);
   searchTerm: string = '';
-  displayedColumns: string[] = ['code', 'name', 'description', 'stock', 'price', 'actions'];
+  displayedColumns: string[] = ['code', 'name', 'description', 'stock', 'price', 'isActive', 'actions'];
   dataSource = new MatTableDataSource<any>();
 
 
@@ -63,6 +64,7 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
             description: product.description,
             stock: product.quantity,
             price: product.actualPrice,
+            isActive: product.isActive ? 'Activo' : 'Inactivo',
           }));
           this.dataSource.data = transformedData;
         } else {
@@ -75,17 +77,8 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openEditModal(product: any) {
-    const dialogRef = this.dialog.open(EditProductModalComponent, {
-      width: '700px',
-      data: { ...product },
-    });
-
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        this.saveProduct(result);
-      }
-    });
+  verProducto(id: number) {
+    this.router.navigate(['/dashboard/product', id]);
   }
 
   saveProduct(updatedProduct: any) {
@@ -112,8 +105,28 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  verProducto(id: number) {
-    this.router.navigate(['/dashboard/product', id]);
+  deleteProduct(id: number) {
+    this.productService.deleteProduct(id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          })
+          this.loadProducts();
+        } else {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          })
+        }
+      },
+      error: (error) => {
+        console.error('Error al eliminar el producto:', error);
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -122,5 +135,36 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+
+  openEditModal(product: any) {
+    const dialogRef = this.dialog.open(EditProductModalComponent, {
+      width: '700px',
+      data: {
+        ...product,
+        isActive: product.isActive === 'Activo' ? true : false,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.saveProduct(result);
+      }
+    });
+  }
+
+
+  confirmDelete(product: any): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteModalComponent, {
+      width: '400px',
+      data: { name: product.name }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.deleteProduct(product.id);
+      }
+    });
   }
 }

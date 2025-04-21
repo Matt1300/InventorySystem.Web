@@ -5,10 +5,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'edit-product-modal',
-  imports: [MatFormFieldModule, CommonModule, FormsModule, MatInputModule, MatDialogModule, MatButtonModule],
+  imports: [MatFormFieldModule, CommonModule, FormsModule, MatInputModule, MatDialogModule, MatButtonModule, MatSelectModule],
   templateUrl: './edit-product-modal.component.html'
 })
 export class EditProductModalComponent {

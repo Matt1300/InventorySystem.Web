@@ -27,4 +27,8 @@ export class ProductsService {
     return this.http.patch<ApiResponse<UpdateResponse>>(`${baseUrl}/Product/${id}`, product);
   }
 
+  deleteProduct(id: number): Observable<ApiResponse<boolean>> {
+    return this.http.delete<ApiResponse<boolean>>(`${baseUrl}/Product/${id}`);
+  }
+
 }

@@ -6,6 +6,7 @@ export interface Product {
   code: string;
   quantity: number;
   actualPrice: number;
+  isActive: boolean;
 }
 
 
@@ -32,6 +33,7 @@ export interface UpdateProduct {
   name: string;
   description: string;
   code: string;
+  isActive: boolean;
 }
 
 export interface UpdateResponse {
@@ -39,4 +41,5 @@ export interface UpdateResponse {
   name: string;
   description: string;
   code: string;
+  isActive: boolean;
 }
