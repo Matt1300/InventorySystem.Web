@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../../services/products.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inventory-page',
@@ -28,6 +29,7 @@ import { ProductsService } from '../../services/products.service';
 export class InventoryPageComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   productService = inject(ProductsService);
+  router = inject(Router);
   searchTerm: string = '';
 
   displayedColumns: string[] = ['code', 'name', 'description', 'stock', 'price', 'actions'];
@@ -46,11 +48,12 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
       next: (response) => {
         if (response.success) {
           const transformedData = response.data.map((product) => ({
+            id: product.id,
             code: product.code,
             name: product.name,
             description: product.description,
             stock: product.quantity,
-            price: 0
+            price: product.actualPrice,
           }));
           this.dataSource.data = transformedData;
         } else {
@@ -61,6 +64,10 @@ export class InventoryPageComponent implements OnInit, AfterViewInit {
         console.error('Error al cargar los productos:', error);
       }
     });
+  }
+
+  verProducto(id: number) {
+    this.router.navigate(['/dashboard/product', id]);
   }
 
   applyFilter(event: Event) {

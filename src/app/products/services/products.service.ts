@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { ApiResponse } from 'src/app/auth/Interfaces/response';
-import { Product } from '../interfaces/Product';
+import { Product, ProductDetails } from '../interfaces/Product';
 import { Observable } from 'rxjs';
 
 const baseUrl = environment.apiUrl;
@@ -17,6 +17,10 @@ export class ProductsService {
 
   getProducts(): Observable<ApiResponse<Product[]>> {
     return this.http.get<ApiResponse<Product[]>>(`${baseUrl}/Product`);
+  }
+
+  getProductById(id: number): Observable<ApiResponse<ProductDetails>> {
+    return this.http.get<ApiResponse<ProductDetails>>(`${baseUrl}/Product/${id}`);
   }
 
 }
