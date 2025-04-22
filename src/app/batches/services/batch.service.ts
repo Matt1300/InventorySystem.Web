@@ -21,4 +21,8 @@ export class BatchService {
     return this.http.patch<ApiResponse<GetBatches>>(`${baseUrl}/Batch/${id}`, batch);
   }
 
+  deleteBatch(id: number): Observable<ApiResponse<boolean>> {
+    return this.http.delete<ApiResponse<boolean>>(`${baseUrl}/Batch/${id}`);
+  }
+
 }

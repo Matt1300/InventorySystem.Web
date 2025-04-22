@@ -74,8 +74,12 @@
           >
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" aria-label="Eliminar">
-            <!-- (click)="confirmDelete(element)" -->
+          <button
+            mat-icon-button
+            color="warn"
+            aria-label="Eliminar"
+            (click)="confirmDeleteModal(element)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </td>
