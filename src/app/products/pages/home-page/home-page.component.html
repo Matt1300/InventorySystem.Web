@@ -3,19 +3,21 @@
   <!-- Total de productos -->
   <div class="bg-blue-600 text-white rounded-xl shadow p-4">
     <p class="text-sm font-semibold">Total de Productos</p>
-    <h2 class="text-3xl font-bold mt-2">256</h2>
+    <h2 class="text-3xl font-bold mt-2">{{ this.totalProducts() }}</h2>
     <p class="text-sm">en inventario</p>
   </div>
 
   <!-- Valor de inventario -->
   <div class="bg-green-600 text-white rounded-xl shadow p-4">
     <p class="text-sm font-semibold">Valor de Inventario</p>
-    <h2 class="text-3xl font-bold mt-2">$152,345.00</h2>
+    <h2 class="text-3xl font-bold mt-2">
+      {{ this.totalPrice() || 0 | currency : "USD" }}
+    </h2>
     <p class="text-sm">valor actual</p>
   </div>
 
   <!-- Productos bajo stock -->
-  <div class="bg-cyan-500 text-white rounded-xl shadow p-4">
+  <div class="bg-red-600 text-white rounded-xl shadow p-4">
     <p class="text-sm font-semibold">Productos Bajo Stock</p>
     <h2 class="text-3xl font-bold mt-2">15</h2>
     <p class="text-sm">requieren atención</p>
@@ -27,7 +29,7 @@
   class="rounded-xl shadow p-6 mb-6"
   [ngStyle]="{ 'background-color': '#f9fafb' }"
 >
-  <h3 class="text-lg font-semibold mb-4 text-slate-800">Últimos Movimientos</h3>
+  <h3 class="text-lg font-semibold mb-4 text-slate-800">Últimas Compras</h3>
   <div class="overflow-x-auto">
     <table
       mat-table
@@ -42,10 +44,24 @@
           class="bg-slate-100 text-left px-4 py-2"
           matSnackBar="inject(MatSnackBar);"
         >
-          Fecha
+          Fecha de ingreso
         </th>
         <td mat-cell *matCellDef="let elemento" class="px-4 py-2">
-          {{ elemento.fecha }}
+          {{ elemento.fecha | date : "dd/MM/yyyy" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="numeroLote">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="bg-slate-100 text-left px-4 py-2"
+          matSnackBar="inject(MatSnackBar);"
+        >
+          N° Lote
+        </th>
+        <td mat-cell *matCellDef="let elemento" class="px-4 py-2">
+          {{ elemento.numeroLote }}
         </td>
       </ng-container>
 
@@ -62,27 +78,6 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="tipo">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="bg-slate-100 text-left px-4 py-2"
-        >
-          Tipo
-        </th>
-        <td mat-cell *matCellDef="let elemento" class="px-4 py-2">
-          <span
-            class="text-white px-2 py-1 rounded-full text-xs"
-            [ngClass]="{
-              'bg-green-500': elemento.tipo === 'Entrada',
-              'bg-red-500': elemento.tipo === 'Salida'
-            }"
-          >
-            {{ elemento.tipo }}
-          </span>
-        </td>
-      </ng-container>
-
       <ng-container matColumnDef="cantidad">
         <th
           mat-header-cell
@@ -93,6 +88,19 @@
         </th>
         <td mat-cell *matCellDef="let elemento" class="px-4 py-2">
           {{ elemento.cantidad }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="bg-slate-100 text-left px-4 py-2"
+        >
+          Precio
+        </th>
+        <td mat-cell *matCellDef="let elemento" class="px-4 py-2">
+          {{ elemento.price || 0 | currency : "USD" }}
         </td>
       </ng-container>
 
