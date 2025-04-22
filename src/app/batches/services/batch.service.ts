@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { ApiResponse } from 'src/app/auth/Interfaces/response';
-import { GetBatches, UpdateBatch } from '../interfaces/Batch';
+import { CreateBatch, GetBatches, UpdateBatch } from '../interfaces/Batch';
 
 const baseUrl = environment.apiUrl;
 @Injectable({
@@ -23,6 +23,10 @@ export class BatchService {
 
   deleteBatch(id: number): Observable<ApiResponse<boolean>> {
     return this.http.delete<ApiResponse<boolean>>(`${baseUrl}/Batch/${id}`);
+  }
+
+  createBatch(batch: CreateBatch): Observable<ApiResponse<GetBatches>> {
+    return this.http.post<ApiResponse<GetBatches>>(`${baseUrl}/Batch`, batch);
   }
 
 }

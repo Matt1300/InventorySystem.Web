@@ -15,3 +15,11 @@ export interface UpdateBatch {
   quantity: number;
   entryDate: Date;
 }
+
+
+export interface CreateBatch {
+  productId: number;
+  price: number;
+  quantity: number;
+  entryDate: Date;
+}

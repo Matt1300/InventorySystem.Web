@@ -1,1 +1,58 @@
-<p>add-batch-modal works!</p>,
+<h3 class="!text-lg !font-semibold !mb-4 p-5 !text-center">
+  Agregar nueva compra de lote
+</h3>
+
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Buscar producto</mat-label>
+  <input
+    type="text"
+    matInput
+    [matAutocomplete]="auto"
+    [(ngModel)]="productSearch"
+    (ngModelChange)="searchProducts($event)"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayProduct"
+    (optionSelected)="selectProduct($event.option.value)"
+  >
+    <mat-option *ngFor="let product of filteredProducts" [value]="product">
+      {{ product.name }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Precio</mat-label>
+  <input matInput [(ngModel)]="data.price" required />
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Cantidad</mat-label>
+  <input matInput [(ngModel)]="data.quantity" required />
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Fecha de ingreso</mat-label>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [(ngModel)]="data.entryDate"
+    required
+  />
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<div class="!flex !justify-end !gap-4 my-5">
+  <button mat-button (click)="close()" color="warn" class="!w-full !sm:w-auto">
+    Cancelar
+  </button>
+  <button
+    mat-button
+    (click)="save()"
+    color="primary"
+    class="!w-full !sm:w-auto"
+  >
+    Guardar
+  </button>
+</div>

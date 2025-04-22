@@ -35,4 +35,8 @@ export class ProductsService {
     return this.http.post<ApiResponse<Product>>(`${baseUrl}/Product`, product);
   }
 
+  searchProducts(term: string): Observable<ApiResponse<Product[]>> {
+    return this.http.get<ApiResponse<Product[]>>(`${baseUrl}/Product/search?term=${term}`);
+  }
+
 }

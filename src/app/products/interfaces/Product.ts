@@ -50,3 +50,10 @@ export interface NewProduct {
   code: string;
   isActive: boolean;
 }
+
+
+export interface SearchProduct {
+  id: number;
+  name: string;
+}
+

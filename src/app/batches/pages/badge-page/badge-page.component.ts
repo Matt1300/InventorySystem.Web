@@ -14,6 +14,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BatchService } from '../../services/batch.service';
 import { EditBatchModalComponent } from '../../components/edit-batch-modal/edit-batch-modal.component';
 import { DeleteBatchModelComponent } from '../../components/delete-batch-model/delete-batch-model.component';
+import { AddBatchModalComponent } from '../../components/add-batch-modal/add-batch-modal.component';
 
 @Component({
   selector: 'app-badge-page',
@@ -152,6 +153,49 @@ export class BatchPageComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Error al eliminar el lote:', error);
+      }
+    });
+  }
+
+
+  openNewBatchModal() {
+    const dialogRef = this.dialog.open(AddBatchModalComponent, {
+      width: '700px',
+      data: {
+        productId: 0,
+        price: 0,
+        quantity: 0,
+        entryDate: new Date(),
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((newProduct: any) => {
+      if (newProduct) {
+        this.createProduct(newProduct);
+      }
+    });
+  }
+
+  createProduct(batch: any) {
+    this.badgeService.createBatch(batch).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
+          this.loadBadges();
+        } else {
+          this.matSnackBar.open(response.message, 'Cerrar', {
+            duration: 4000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error al crear el lote:', error);
       }
     });
   }

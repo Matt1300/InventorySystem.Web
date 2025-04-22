@@ -43,12 +43,6 @@ export class SideMenuOptionsComponent {
       route: '/dashboard/badges',
       sublabel: 'Registro de compras'
     },
-    {
-      icon: 'sell',
-      label: 'Ventas',
-      route: '/dashboard/sales',
-      sublabel: 'Registro de ventas'
-    }
   ]
 
   logout() {
