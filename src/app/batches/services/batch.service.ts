@@ -29,4 +29,7 @@ export class BatchService {
     return this.http.post<ApiResponse<GetBatches>>(`${baseUrl}/Batch`, batch);
   }
 
+  lowStockProducts(): Observable<ApiResponse<number>> {
+    return this.http.get<ApiResponse<number>>(`${baseUrl}/Batch/lowStock`);
+  }
 }

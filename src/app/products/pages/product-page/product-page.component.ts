@@ -41,18 +41,8 @@ export class ProductPageComponent implements OnInit {
 
   activeTabIndex = 0;
 
-  loadProduct(productId: string | null) {
-    // Aquí iría la lógica para cargar los datos del producto desde un servicio
-  }
-
-  onEdit() {
-    // console.log('Edit product:', this.product.id);
-    // Implementar lógica para editar el producto
-  }
-
   onReturn() {
     this.route.navigate(['/dashboard/inventory']);
-    // Implementar navegación de retorno a la lista de productos
   }
 
   setActiveTab(index: number) {

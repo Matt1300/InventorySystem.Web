@@ -24,6 +24,7 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.getTotalProducts();
     this.getLastBatches();
+    this.getLowStock();
   }
 
   productService = inject(ProductsService);
@@ -31,6 +32,7 @@ export class HomePageComponent implements OnInit {
   totalProducts = signal<number>(0);
   lastBadges = signal<GetBatches[]>([]);
   totalPrice = signal<number>(0);
+  lowStock = signal<number>(0);
 
   movimientos: any[] = [];
   columnas: string[] = ['fecha', 'numeroLote', 'producto', 'cantidad', 'price'];
@@ -53,6 +55,17 @@ export class HomePageComponent implements OnInit {
         this.totalPrice.set(res.data.reduce((acc, batch) => acc + batch.price, 0));
         this.lastBadges.set(res.data.slice(0, 3));
         this.addBatchesToMovements(this.lastBadges());
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+  getLowStock() {
+    this.batchService.lowStockProducts().subscribe({
+      next: (res) => {
+        this.lowStock.set(res.data);
       },
       error: (err) => {
         console.error(err);

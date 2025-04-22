@@ -13,15 +13,7 @@
         <div class="flex space-x-2">
           <button
             mat-raised-button
-            color="primary"
-            class="bg-yellow-400 text-black"
-            (click)="onEdit()"
-          >
-            Editar
-          </button>
-          <button
-            mat-raised-button
-            class="bg-gray-500 text-white"
+            class="!bg-gray-500 !text-white"
             (click)="onReturn()"
           >
             Volver
@@ -68,16 +60,6 @@
                 (click)="setActiveTab(0)"
               >
                 Lotes y Precios
-              </button>
-              <button
-                [ngClass]="{
-                  'bg-blue-500 text-white': activeTabIndex === 1,
-                  'bg-gray-100': activeTabIndex !== 1
-                }"
-                class="py-3 px-6 font-medium focus:outline-none transition-colors"
-                (click)="setActiveTab(1)"
-              >
-                Movimientos
               </button>
             </div>
           </div>
