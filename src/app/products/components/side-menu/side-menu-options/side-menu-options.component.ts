@@ -40,7 +40,7 @@ export class SideMenuOptionsComponent {
     {
       icon: 'fa-solid fa-cart-shopping',
       label: 'Compras',
-      route: '/dashboard/purchases',
+      route: '/dashboard/badges',
       sublabel: 'Registro de compras'
     },
     {

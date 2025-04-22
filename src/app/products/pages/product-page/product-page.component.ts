@@ -39,8 +39,6 @@ export class ProductPageComponent implements OnInit {
     });
   }
 
-
-
   activeTabIndex = 0;
 
   loadProduct(productId: string | null) {

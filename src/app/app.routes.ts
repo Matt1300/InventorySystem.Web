@@ -40,6 +40,10 @@ export const routes: Routes = [
         canActivate: [authGuard]
       },
       {
+        path: 'badges',
+        loadComponent: () => import('./batches/pages/badge-page/badge-page.component').then(m => m.BatchPageComponent),
+      },
+      {
         path: '**',
         redirectTo: 'home'
       }
